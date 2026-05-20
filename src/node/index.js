@@ -16,7 +16,7 @@ const pool = new Pool({
   user: "user_shuns_watanabe",
   host: "localhost",
   database: "db_shuns_watanabe",
-  password: "shun0904",
+  password: "5Rw5YDaWc5jc",
   port: 5432,
 });
 
