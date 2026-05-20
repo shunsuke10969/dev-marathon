@@ -13,10 +13,10 @@ app.use(express.json());
 app.use(express.static("public"));
 
 const pool = new Pool({
-  user: "user_5646",
-  host: "db",
-  database: "crm_5646",
-  password: "pass_5646",
+  user: "user_shuns_watanabe",
+  host: "localhost",
+  database: "db_shuns_watanabe",
+  password: "shun0904",
   port: 5432,
 });
 
