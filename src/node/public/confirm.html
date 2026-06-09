@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>確認画面</title>
+</head>
+<body>
+
+<h1>確認画面</h1>
+
+<div id="result"></div>
+
+<form action="/add-customer" method="POST">
+
+  <input type="hidden" name="companyName" id="companyName">
+  <input type="hidden" name="industry" id="industry">
+  <input type="hidden" name="contact" id="contact">
+  <input type="hidden" name="location" id="location">
+
+  <button type="submit">登録確定</button>
+
+</form>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const companyName = params.get("companyName");
+const industry = params.get("industry");
+const contact = params.get("contact");
+const location = params.get("location");
+
+document.getElementById("result").innerHTML = `
+<p>会社名: ${companyName}</p>
+<p>業界: ${industry}</p>
+<p>担当者: ${contact}</p>
+<p>所在地: ${location}</p>
+`;
+
+document.getElementById("companyName").value = companyName;
+document.getElementById("industry").value = industry;
+document.getElementById("contact").value = contact;
+document.getElementById("location").value = location;
+
+</script>
+
+</body>
+</html>

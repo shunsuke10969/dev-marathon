@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>顧客一覧</title>
+</head>
+
+<body>
+
+  <h1>顧客一覧</h1>
+
+  <table border="1">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>会社名</th>
+        <th>業界</th>
+        <th>担当者</th>
+        <th>所在地</th>
+      </tr>
+    </thead>
+
+    <tbody id="customer-list"></tbody>
+
+  </table>
+
+  <script>
+
+    fetch("/customers")
+      .then(response => response.json())
+      .then(data => {
+
+        const customerList = document.getElementById("customer-list");
+
+        data.forEach(customer => {
+
+          const row = `
+            <tr>
+              <td>${customer.id}</td>
+
+              <td>
+                <a href="/customer-detail.html?id=${customer.id}">
+                  ${customer.company_name}
+                </a>
+              </td>
+
+              <td>${customer.industry}</td>
+              <td>${customer.contact}</td>
+              <td>${customer.location}</td>
+            </tr>
+          `;
+
+          customerList.innerHTML += row;
+
+        });
+
+      });
+
+  </script>
+
+</body>
+
+</html>
