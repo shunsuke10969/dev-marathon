@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 name: production deploy
+=======
+name: Production Deploy
+>>>>>>> 4a6afda (add main workflow)
 
 on:
   push:
@@ -6,6 +10,7 @@ on:
       - main
 
 jobs:
+<<<<<<< HEAD
   test-and-deploy:
     runs-on: ubuntu-latest
 
@@ -33,3 +38,51 @@ jobs:
 
       # ④ テスト成功後、Productionへデプロイ
       - run: ssh ${{ steps.production.outputs.SERVER }} bash /app/shuns-watanabe/deploy.sh shuns-watanabe
+=======
+  deploy-staging:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Staging
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.STG_HOST }}
+          username: ${{ secrets.STG_USER }}
+          key: ${{ secrets.STG_KEY }}
+          script: |
+            cd /app/shuns-watanabe
+            ./deploy.sh
+
+  test:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Test
+        run: |
+          echo "Test Success"
+
+  deploy-production:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Production
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PRD_HOST }}
+          username: ${{ secrets.PRD_USER }}
+          key: ${{ secrets.PRD_KEY }}
+          script: |
+            cd /app/shuns-watanabe
+            ./deploy.sh
+>>>>>>> 4a6afda (add main workflow)
