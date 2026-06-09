@@ -37,6 +37,7 @@ app.post("/add-customer", async (req, res) => {
 
     res.json({
       success: true,
+      message: "保存しました",	    
       customer: newCustomer.rows[0],
     });
 
@@ -46,6 +47,7 @@ app.post("/add-customer", async (req, res) => {
 
     res.json({
       success: false,
+      message: "失敗しました",
       error: err.message,
     });
   }
@@ -56,7 +58,7 @@ app.get("/customers", async (req, res) => {
   try {
 
     const customerData = await pool.query(
-      "SELECT * FROM customers ORDER BY id ASC"
+      "SELECT * FROM customers ORDER BY customer_id ASC"
     );
 
     res.json(customerData.rows);
@@ -76,7 +78,7 @@ app.get("/customer/:id", async (req, res) => {
     const id = req.params.id;
 
     const customer = await pool.query(
-      "SELECT * FROM customers WHERE id = $1",
+      "SELECT * FROM customers WHERE customer_id = $1",
       [id]
     );
 
@@ -97,7 +99,7 @@ app.delete("/customer/:id", async (req, res) => {
     const id = req.params.id;
 
     await pool.query(
-      "DELETE FROM customers WHERE id = $1",
+      "DELETE FROM customers WHERE customer_id = $1",
       [id]
     );
 
@@ -132,7 +134,7 @@ app.put("/customer/:id", async (req, res) => {
         industry = $2,
         contact = $3,
         location = $4
-      WHERE id = $5
+      WHERE customer_id = $5
       `,
       [
         companyName,
