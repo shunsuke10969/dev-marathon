@@ -1,63 +1,98 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>顧客情報入力</title>
-    <!-- Bootstrap CSSの読み込み -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+```
+<!-- Bootstrap CSSの読み込み -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+```
+
 </head>
 <body>
     <div class="container mt-5">
         <h2 class="mb-4">顧客情報を入力してください</h2>
-        <form id="customer-form">
-            <div class="form-group">
-                <label for="companyName">会社名:</label>
-                <input type="text" class="form-control" id="companyName" name="companyName" required>
-            </div>
-            <div class="form-group">
-                <label for="industry">業種:</label>
-                <input type="text" class="form-control" id="industry" name="industry" required>
-            </div>
-            <div class="form-group">
-                <label for="contact">連絡先:</label>
-                <input type="text" class="form-control" id="contact" name="contact" required>
-            </div>
-            <div class="form-group">
-                <label for="location">所在地:</label>
-                <input type="text" class="form-control" id="location" name="location" required>
-            </div>
-            <button type="submit" class="btn btn-primary">送信</button>
-        </form>
-    </div>
-    <script type="module">
-        import config from '../config.js';
 
-        document.getElementById('customer-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            fetch(config.apiUrl + '/add-customer', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: new URLSearchParams([...formData])
-            }).then(response => response.json())
-              .then(data => {
-                if(data.success) {
-                    alert('顧客情報が正常に保存されました。');
-                    // フォームをリセット
-                    document.getElementById('customer-form').reset();
-                } else {
-                    alert('保存に失敗しました。');
-                }
-              })
-              .catch(error => console.error('Error:', error));
+```
+    <form id="customer-form">
+        <div class="form-group">
+            <label for="companyName">会社名:</label>
+            <input type="text" class="form-control" id="companyName" name="companyName" required>
+        </div>
+
+        <div class="form-group">
+            <label for="industry">業種:</label>
+            <input type="text" class="form-control" id="industry" name="industry" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contact">連絡先:</label>
+            <input type="text" class="form-control" id="contact" name="contact" required>
+        </div>
+
+        <div class="form-group">
+            <label for="location">所在地:</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">送信</button>
+
+        <div id="message" class="mt-3"></div>
+    </form>
+</div>
+
+<script type="module">
+    import config from '../config.js';
+
+    document.getElementById('customer-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch(config.apiUrl + '/add-customer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams([...formData])
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            if (data.success) {
+
+                document.getElementById('message').innerHTML =
+                    '<div class="alert alert-success">顧客情報を登録しました。</div>';
+
+                document.getElementById('customer-form').reset();
+
+            } else {
+
+                document.getElementById('message').innerHTML =
+                    '<div class="alert alert-danger">顧客情報の登録に失敗しました。</div>';
+
+            }
+
+        })
+        .catch(error => {
+
+            console.error('Error:', error);
+
+            document.getElementById('message').innerHTML =
+                '<div class="alert alert-danger">エラーが発生しました。</div>';
+
         });
-    </script>
-    <!-- BootstrapのJavaScriptの読み込み -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    });
+</script>
+
+<!-- BootstrapのJavaScriptの読み込み -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+```
+
 </body>
 </html>
