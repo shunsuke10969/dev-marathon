@@ -20,4 +20,3 @@ jobs:
       - name: Deploy to Production
         run: |
           ssh -i ~/.ssh/prod_key -p ${{ secrets.PROD_SSH_PORT }} ${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }} "bash /app/shuns-watanabe/deploy.sh shuns-watanabe"
-EOF
