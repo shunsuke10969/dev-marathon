@@ -1,4 +1,3 @@
-cat > main.yml <<'EOF'
 name: Production Deploy
 
 on:
