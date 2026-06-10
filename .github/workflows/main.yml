@@ -6,22 +6,11 @@ on:
       - main
 
 jobs:
-  test-and-deploy:
+  deploy-production:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup staging SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DEV_SSH_KEY }}" > ~/.ssh/dev_key
-          chmod 600 ~/.ssh/dev_key
-          ssh-keyscan -p ${{ secrets.DEV_SSH_PORT }} ${{ secrets.DEV_SSH_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy to Staging
-        run: |
-          ssh -i ~/.ssh/dev_key -p ${{ secrets.DEV_SSH_PORT }} ${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }} "bash /app/shuns-watanabe/deploy.sh shuns-watanabe"
-
-      - name: Setup production SSH key
+      - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.PROD_SSH_KEY }}" > ~/.ssh/prod_key
