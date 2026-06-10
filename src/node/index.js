@@ -37,6 +37,7 @@ app.post("/add-customer", async (req, res) => {
 
     res.json({
       success: true,
+      message: "保存しました",	    
       customer: newCustomer.rows[0],
     });
 
@@ -46,6 +47,7 @@ app.post("/add-customer", async (req, res) => {
 
     res.json({
       success: false,
+      message: "失敗しました",
       error: err.message,
     });
   }

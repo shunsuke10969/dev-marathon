@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>顧客詳細</title>
+</head>
+
+<body>
+
+  <h1>顧客詳細</h1>
+
+  <div id="detail"></div>
+
+  <hr>
+
+  <h2>顧客情報編集</h2>
+
+  <div>
+
+    <p>会社名</p>
+    <input type="text" id="companyName">
+
+    <p>業界</p>
+    <input type="text" id="industry">
+
+    <p>担当者</p>
+    <input type="text" id="contact">
+
+    <p>所在地</p>
+    <input type="text" id="location">
+
+    <br><br>
+
+    <button onclick="updateCustomer()">更新</button>
+    <button onclick="deleteCustomer()">削除</button>
+
+  </div>
+
+  <script>
+
+    const params = new URLSearchParams(window.location.search);
+
+    const id = params.get("id");
+
+    fetch(`/customer/${id}`)
+      .then(response => response.json())
+      .then(customer => {
+
+        document.getElementById("detail").innerHTML = `
+          <p>ID: ${customer.id}</p>
+          <p>会社名: ${customer.company_name}</p>
+          <p>業界: ${customer.industry}</p>
+          <p>担当者: ${customer.contact}</p>
+          <p>所在地: ${customer.location}</p>
+        `;
+
+        document.getElementById("companyName").value = customer.company_name;
+        document.getElementById("industry").value = customer.industry;
+        document.getElementById("contact").value = customer.contact;
+        document.getElementById("location").value = customer.location;
+
+      });
+
+    function deleteCustomer() {
+
+      if (!confirm("削除していいですか？")) {
+        return;
+      }
+
+      fetch(`/customer/${id}`, {
+        method: "DELETE"
+      })
+      .then(response => response.json())
+      .then(data => {
+
+        if (data.success) {
+
+          alert("削除しました");
+
+          location.href = "/list.html";
+        }
+      });
+    }
+
+    function updateCustomer() {
+
+      fetch(`/customer/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          companyName: document.getElementById("companyName").value,
+          industry: document.getElementById("industry").value,
+          contact: document.getElementById("contact").value,
+          location: document.getElementById("location").value
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+
+        if (data.success) {
+
+          alert("更新しました");
+
+          location.reload();
+        }
+      });
+    }
+
+  </script>
+
+</body>
+
+</html>
